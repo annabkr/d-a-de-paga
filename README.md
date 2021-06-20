@@ -1,4 +1,4 @@
-# dia-de-paga
+# paydayz
 
 ## Work in progress. 
 
