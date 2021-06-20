@@ -5,7 +5,7 @@ import "github.com/google/uuid"
 // Schema of the transaction table
 type Transaction struct {
 	ID     uuid.UUID      `json:"id"`
-	Amount float64    `json:"float"`
+	Amount float64    `json:"amount"`
 	Source SourceType `json:"source"`
 }
 

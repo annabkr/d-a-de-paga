@@ -10,50 +10,43 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/v4/pgxpool"
 
-	"github.com/annabkr/paydayz/api"
 	l "github.com/annabkr/paydayz/utils/logger"
 )
 
-var pool *pgxpool.Pool
-type App struct {
+var app *App
+type App struct { 
+	port   string
 	router *mux.Router
-	port   string 
+	pool *pgxpool.Pool
 }
 
 func Initialize() *App {
-	app := &App{
+	app = &App{
 		router: mux.NewRouter(),
 		port:   ":3000",
 	}
 	app.initializeDB()
-	app.initializeAPI()
-	return app
-}
 
-func (a App) initializeDB(){
+	return app
+} 
+
+func (a *App) initializeDB(){ 
 	p, err := pgxpool.Connect(context.Background(), os.Getenv("POSTGRES_URL"))
-	if err != nil {
+	if err != nil || p == nil {
 		l.Err(fmt.Sprintf("unable to connect to postgres pool: %s", err.Error()))
 		os.Exit(1)
 	}
-	defer pool.Close()
+	// defer func(){
+	// 	l.Info("Closing pool")
+	// 	p.Close()
+	// }()
 	
-	pool = p
-}
-
-func (a App) initializeAPI() {
-	routes := api.GetApiRoutes()
-	for _, route := range routes {
-		a.RegisterRoute(route.Method, route.Pattern, route.Handler)
-	}
+	l.Info("Initialized PostgreSQL pool")
+	a.pool = p 
 }
 
 func (a App) GetRouter() *mux.Router {
 	return a.router
-}
-
-func (a App) RegisterRoute(method string, pattern string, handler HandlerFunc) {
-	a.GetRouter().Handle(pattern, handler).Methods(method)
 }
 
 func (a App) Run() {
@@ -62,7 +55,7 @@ func (a App) Run() {
 }
 
 func GetPool() *pgxpool.Pool {
-	return pool
+	return app.pool
 }
 
 // Schema

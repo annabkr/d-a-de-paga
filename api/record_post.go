@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
-	"pkg/errors"
+	"github.com/pkg/errors"
 
 	"github.com/google/uuid"
 
