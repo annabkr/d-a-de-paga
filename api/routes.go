@@ -14,6 +14,7 @@ func GetApiRoutes() []ApiRoute {
 	return []ApiRoute{
 		GetRoot,
 		GetRecord,
+		PostRecord,
 	}
 }
 
@@ -27,4 +28,10 @@ var GetRecord = ApiRoute{
 	"GET",
 	"/record",
 	getRecord,
+}
+
+var PostRecord = ApiRoute{
+	"POST",
+	"/record",
+	postRecord,
 }

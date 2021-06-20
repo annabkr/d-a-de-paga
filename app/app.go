@@ -14,28 +14,31 @@ import (
 	l "github.com/annabkr/paydayz/utils/logger"
 )
 
+var pool *pgxpool.Pool
 type App struct {
 	router *mux.Router
-	port   string
-	db     *pgxpool.Pool
+	port   string 
 }
 
 func Initialize() *App {
-	db, err := pgxpool.Connect(context.Background(), os.Getenv("POSTGRES_URL"))
-	if err != nil {
-		l.Err(fmt.Sprintf("unable to connect to database: %s", err.Error()))
-		os.Exit(1)
-	}
-	defer db.Close()
-
 	app := &App{
 		router: mux.NewRouter(),
 		port:   ":3000",
-		db:     db,
 	}
-
+	app.initializeDB()
 	app.initializeAPI()
 	return app
+}
+
+func (a App) initializeDB(){
+	p, err := pgxpool.Connect(context.Background(), os.Getenv("POSTGRES_URL"))
+	if err != nil {
+		l.Err(fmt.Sprintf("unable to connect to postgres pool: %s", err.Error()))
+		os.Exit(1)
+	}
+	defer pool.Close()
+	
+	pool = p
 }
 
 func (a App) initializeAPI() {
@@ -58,6 +61,17 @@ func (a App) Run() {
 	log.Fatal(http.ListenAndServe(a.port, a.router))
 }
 
-func (a App) GetDatabase() *pgxpool.Pool {
-	return a.db
+func GetPool() *pgxpool.Pool {
+	return pool
 }
+
+// Schema
+// CREATE TABLE transactions(
+//     id SERIAL PRIMARY KEY,
+//     amount FLOAT NOT NULL,
+//     source TEXT NOT NULL
+// )
+
+// id  | amount |  source  
+// -----+--------+----------
+//  123 |  100.5 | Paycheck
