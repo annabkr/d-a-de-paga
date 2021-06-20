@@ -10,8 +10,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/v4/pgxpool"
 
-	"github.com/annabkr/dia-de-paga/api"
-	l "github.com/annabkr/dia-de-paga/utils/logger"
+	"github.com/annabkr/paydayz/api"
+	l "github.com/annabkr/paydayz/utils/logger"
 )
 
 type App struct {

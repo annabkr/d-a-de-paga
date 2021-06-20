@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/annabkr/dia-de-paga/utils/errors"
-	log "github.com/annabkr/dia-de-paga/utils/logger"
+	"github.com/annabkr/paydayz/utils/errors"
+	log "github.com/annabkr/paydayz/utils/logger"
 )
 
 type HandlerFunc func(http.ResponseWriter, *http.Request) error

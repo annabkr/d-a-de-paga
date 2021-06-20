@@ -1,7 +1,7 @@
 package main
 
 import (
-	a "github.com/annabkr/dia-de-paga/app"
+	a "github.com/annabkr/paydayz/app"
 )
 
 func main() {

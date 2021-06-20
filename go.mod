@@ -1,4 +1,4 @@
-module github.com/annabkr/dia-de-paga
+module github.com/annabkr/paydayz
 
 go 1.16
 

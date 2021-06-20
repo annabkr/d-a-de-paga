@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	log "github.com/annabkr/dia-de-paga/utils/logger"
+	log "github.com/annabkr/paydayz/utils/logger"
 )
 
 type Error struct {
